@@ -6,6 +6,23 @@ const knexConfig = require('../knexfile.js');
 
 const db= knex(knexConfig.development)
 
+// add a cohort to the database
+router.post('/', (req, res) => {
+    db('cohorts')
+    .insert(req.body)
+    .then(([id]) => {
+        db('cohorts')
+        .where({id})
+        .first()
+        .then(orange => {
+            res.status(200).json(orange);
+        })
+    })
+    .catch(err => {
+        res.status(500).json(err);
+    })
+})
+
 router.get('/', (req, res) => {
     // get the cohorts from the database
     db('cohorts')
