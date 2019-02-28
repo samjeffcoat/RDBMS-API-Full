@@ -34,6 +34,19 @@ router.get('/', (req, res) => {
         })
 });
 
+router.get('/:id', (req, res) => {
+    // retrieve a cohort  by id
+    db('cohorts')
+        .where({ id: req.params.id })
+        .first()
+        .then(cohort=> {
+            res.status(200).json(cohort)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+});
+
 
 
 
